@@ -11,7 +11,10 @@ import LeanPool.PoincareThreeBody.ChapterVIDarboux
 import LeanPool.PoincareThreeBody.ChapterVIJacobian
 import LeanPool.PoincareThreeBody.ChapterVILatticeReduction
 import LeanPool.PoincareThreeBody.ChapterVIPinchModel
+import LeanPool.PoincareThreeBody.ChapterVISection103Certificate
+import LeanPool.PoincareThreeBody.ChapterVISection103Geometry
 import LeanPool.PoincareThreeBody.ChapterVISingularityAlgebra
+import LeanPool.PoincareThreeBody.ChapterVIRuppert
 import LeanPool.PoincareThreeBody.ChapterVIWeierstrass
 import LeanPool.PoincareThreeBody.LocalEnergyLeaf
 
@@ -87,7 +90,16 @@ the decisive complex-singularity calculation in Chapter VI of Poincaré's first 
   `x ∂P/∂x = 2 ∑ VᵢUᵢ + 2P`; the printing has `+P`, which agrees only after restricting to `P=0`.
   `chapterVI_cubicDerivativeCurveEquation_reduction` verifies the subsequent reduction modulo
   `P`, and `chapterVI_reducedCurve_totalDegree_le_seven` proves its degree-seven estimate under
-  the displayed degree bounds. The intersection multiplicities are not inferred from these facts.
+  the displayed degree bounds. `chapterVISection103_derivedRotationMinor_eq` reconstructs exact
+  coefficient rows from two genuine rational spatial Kepler ellipses and three infinitesimal
+  relative rotations. `chapterVISection103_no_projective_infinitesimal_rotation` uses their
+  nonzero determinant and the `y²z⁴` coefficient to prove that no nonzero such rotation preserves
+  `P`, even up to rescaling, at that configuration. `chapterVI_ruppertExpression_factor` verifies
+  the differential identity
+  by which a proper factor of `P` would produce a vector in the kernel of Ruppert's absolute-
+  irreducibility matrix. The research audit computes that exact `64 × 35` matrix over `Q(i)` and
+  finds full rank, but this large finite certificate is not yet checked by Lean. Nor are the
+  projective Bézout theorem and Poincaré's local intersection multiplicities yet formalized.
   The theorems at the end of this file instead connect coefficient nonvanishing to the restricted
   dense Poincaré set and thence to the project's modified nonintegrability proof.
 

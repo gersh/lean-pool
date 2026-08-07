@@ -242,6 +242,53 @@ proof of milestone 1 until the pinch, asymptotic, and rank arguments are closed.
 7. Ask reviewers to evaluate the mathematical reconstruction document first. Open a formalization
    PR only when a self-contained theorem and its source correspondence are stable.
 
+## Faithful-completion decision
+
+The research target is now a completion of Poincaré's own route, rather than a proof of a similar
+nonintegrability statement by the collision-band or Morales--Ramis routes. Modern results may be
+used to justify a step that Poincaré describes informally, but the completed proof must retain the
+following chain:
+
+```text
+Fourier ray -> Phi(z) -> collision discriminant -> admissible contour pinch
+            -> logarithmic branch -> Darboux coefficients -> singular-locus rank
+            -> degree-six/seven intersection count -> nonintegrability
+```
+
+In particular, a direct validated quadrature certificate is not a substitute for the singularity
+analysis. Validated computation may certify root separation, continuation, intersection
+multiplicity, or a nonzero determinant inside that chain.
+
+### First exact audit of §103
+
+The script `chapter_vi_section_103_audit.py` constructs an exact spatial example from two genuine
+Kepler ellipses. It uses eccentricities `3/5` and `5/13`, minor-axis factors `4/5` and `12/13`,
+semimajor-axis ratio `2`, and the rational rotation obtained from the quaternion `(1,2,3,4)`.
+All calculations take place over `Q(i)`.
+
+For this example the audit establishes computationally, with exact rational arithmetic:
+
+- `deg P = 6`, `deg R = 7`, and `gcd(P,R)=1`;
+- the affine-origin contribution is `2`, by transversality of the tangent line of `R` to the
+  quadratic tangent cone of `P`;
+- the resultant orders in the two projective axis charts are both `8`, matching Poincaré's two
+  claimed contributions at infinity;
+- the differential of the map from the three relative-rotation directions to the projective
+  coefficient vector of `P` is injective. A four-by-four coefficient minor has determinant
+  `(90576 - 340992 i) / 6865625`, which is nonzero.
+- after dehomogenizing to `f = P(x,y,1)`, the exact `64 x 35` Ruppert matrix has rank `35` over
+  `Q(i)`. By Ruppert's characteristic-zero criterion, this is the finite certificate needed to
+  prove that `f`, and hence the projective curve `P`, is absolutely irreducible.
+
+The rotation item gives a precise repair of the final geometric paragraph: no nonzero infinitesimal
+relative rotation can preserve the curve `P = 0`, even up to rescaling. It does not yet prove the
+preceding Bézout implication. The remaining algebraic tasks are to turn the exact computations into
+Lean-checkable certificates and prove the relevant projective Bézout and local-resultant
+multiplicity theorems. `ChapterVIRuppert` now verifies the quotient-rule identity showing that a
+proper factor produces a Ruppert-kernel vector; the exact full-rank certificate and its degree
+bounds still need to be connected to that theorem. Once connected, it repairs Poincaré's
+unjustified jump from "more than 36 intersections" to "the curves coincide."
+
 ## Sources
 
 - Henri Poincaré, [*Les méthodes nouvelles de la mécanique céleste*, volume I, Chapter VI
@@ -254,6 +301,9 @@ proof of milestone 1 until the pinch, asymptotic, and rank arguments are closed.
   problem*][yagasaki-classical], arXiv:2111.11031.
 - Kazuyuki Yagasaki, [*Nonintegrability of the restricted three-body
   problem*][yagasaki-fixed-mass], arXiv:2106.04925.
+- Shuhong Gao, [*Factoring multivariate polynomials via partial differential
+  equations*][gao-ruppert], *Mathematics of Computation* 72 (2003), 801–822. Theorem 2.1 states
+  the Ruppert characteristic-zero criterion used in the §103 repair.
 
 [chapter-vi]: https://fr.wikisource.org/wiki/Les_m%C3%A9thodes_nouvelles_de_la_m%C3%A9canique_c%C3%A9leste/Chap.06
 [page-290]: https://fr.wikisource.org/wiki/Page:Henri_Poincar%C3%A9_-_Les_m%C3%A9thodes_nouvelles_de_la_m%C3%A9canique_c%C3%A9leste,_Tome_1,_1892.djvu/302
@@ -262,3 +312,4 @@ proof of milestone 1 until the pinch, asymptotic, and rank arguments are closed.
 [poincare-1897]: https://www.numdam.org/item/JMPA_1897_5_3__203_0.pdf
 [yagasaki-classical]: https://arxiv.org/abs/2111.11031
 [yagasaki-fixed-mass]: https://arxiv.org/abs/2106.04925
+[gao-ruppert]: https://www.ams.org/journals/mcom/2003-72-242/S0025-5718-02-01428-9/
