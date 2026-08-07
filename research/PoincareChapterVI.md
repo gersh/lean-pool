@@ -44,11 +44,11 @@ transcription of the 1892 text.
 | §95 | Candidate singularities arise when moving singularities of the integrand obstruct contour deformation | No source-level analytic theorem | A parameterized contour-deformation theorem for multivalued algebraic integrands; modern language suggests vanishing cycles and Picard–Lefschetz theory |
 | §96 | Algebraic equations for candidate singularities | `ChapterVISingularityAlgebra.lean` checks selected half-angle factorizations, reciprocal symmetries, a discriminant, and `z ↦ z⁻¹` | Formalize all collision equations from the actual Kepler parametrization and prove equivalence without losing roots while clearing denominators |
 | §§97–98 | Decide which candidates are admissible and which singularity lies on the boundary of the Laurent annulus | Not formalized | Construct the relevant Riemann surface/cycle, compute monodromy or vanishing-cycle intersection, and prove the required parameter regions. Poincaré explicitly says this discussion is only sketched |
-| §99 | Localize at a pinch and prepare the double zero as `ψ=((t-h)²+k)ψ₁` | `ChapterVIWeierstrass.lean` proves the analogous statement for nested **formal** power series | Analytic Weierstrass preparation for the actual convergent germ, nondegeneracy of the double zero, compatible square-root branches, and the contour localization |
+| §99 | Localize at a pinch and prepare the double zero as `ψ=((t-h)²+k)ψ₁` | `ChapterVIWeierstrass.lean` proves the analogous statement for nested **formal** power series; `ChapterVIPinchModel.lean` exactly integrates the real symmetric quadratic model and proves its logarithmic asymptotic | Analytic Weierstrass preparation for the actual convergent germ, nondegeneracy, compatible complex square-root branches, transport of the contour, the analytic unit, and the remainder |
 | §100 | Integrate the prepared local model to obtain `Φ₂+Φ₃ log(z-z₀)` and apply Darboux | `ChapterVIDarboux.lean` proves the exact coefficients of a model logarithm and an abstract asymptotic-to-nonvanishing step | Derive the logarithmic expansion of the actual integral; prove the leading factor is nonzero; bound the holomorphic and higher-order terms, including all equally dominant singularities |
 | §101 | Astronomical example (the Pallas inequality) | Not formalized | Optional for nonintegrability; relevant only if the project also verifies the numerical application |
-| §102 | A uniform integral would constrain the singular points to depend on too few parameters | Only a conditional restricted-problem interface in `ChapterVI.lean` | Formalize the Chapter V input, analytic dependence/enumeration of singular roots, Jacobian-rank reasoning, and passage from coefficient relations to singular-locus relations |
-| §103 | Count 24 finite singular points and contradict the rank constraint using two degree-six curves with 44 counted intersections | Not formalized | Projective closure, Bézout with no common component, local intersection multiplicities at the origin and infinity, persistence under deformation, and the final moving-ellipse contradiction |
+| §102 | A uniform integral would constrain the singular points to depend on too few parameters | `ChapterVIJacobian.lean` verifies the displayed rescaling of the six-by-six Jacobian to the five ratio derivatives, including the factor `-z₁⁶/ζ⁷`; `ChapterVI.lean` supplies only a conditional restricted-problem interface | Formalize the Chapter V input, analytic dependence/enumeration of singular roots, prove the required ratio Jacobian is nonzero, and justify the passage from coefficient relations to singular-locus relations |
+| §103 | Count 24 finite singular points and contradict the rank constraint using two degree-six curves with 44 counted intersections | `ChapterVICurveAlgebra.lean` checks the cubic-form simplifications, corrected derivative identity, exact reduction of `Q` modulo `P` with the factor `2xy`, and the degree-seven bound for `R` | Projective closure, Bézout with no common component, local intersection multiplicities at the origin and infinity, persistence under deformation, and the final moving-ellipse contradiction |
 
 ## What the current Lean files actually establish
 
@@ -64,6 +64,13 @@ The source-facing files added after the standalone-project commit are deliberate
   a monic quadratic square.
 - `ChapterVIDarboux.lean`: the model logarithm's coefficients and the conditional implication from
   a nonzero Darboux asymptotic to eventual coefficient nonvanishing.
+- `ChapterVIJacobian.lean`: the exact determinant row reduction in §102 from the six scaled
+  singularities to five singularity ratios, without assuming the missing analytic/rank input.
+- `ChapterVICurveAlgebra.lean`: the five-term cubic-form simplification in §103, the corrected
+  derivative identity for `P = ∑ Uᵢ²`, the exact derivative-equation reduction modulo `P`, and
+  the degree-seven estimate for the reduced curve.
+- `ChapterVIPinchModel.lean`: exact integration of the real symmetric quadratic-pinch model,
+  decomposition into `-log k` plus a regular term, and the regular term's limit as `k → 0⁺`.
 - `ChapterVI.lean`: a passage-by-passage status statement and a conditional interface from the
   missing Darboux nonvanishing result to the project's restricted nonintegrability theorem.
 
@@ -105,6 +112,20 @@ Thus the printed formula appears dimensionally and algebraically inconsistent wi
 line. This needs an independent derivation and a search for corrigenda or later treatments; it is
 not yet encoded in Lean.
 
+### The derivative of `P = ∑ Uᵢ²`, p. 331
+
+The [facsimile of p. 331][page-331] defines `V = x ∂U/∂x - U` and then prints
+
+```text
+x ∂P/∂x = 2 ∑ VU + P.
+```
+
+Since `P = ∑ U²`, substituting `x ∂U/∂x = V + U` gives
+`x ∂P/∂x = 2 ∑ VU + 2P`. The branch verifies the corrected identity in
+`chapterVI_curvePolynomial_derivative`. Poincaré immediately restricts to `P=0`, so this typo
+does not change the following reduced equation, which
+`chapterVI_curvePolynomial_derivative_on_curve` also verifies.
+
 ## The hard mathematical core
 
 ### 1. Genuine versus apparent pinches (§§95–99)
@@ -121,7 +142,9 @@ Riemann surface and the contour behave. A modern reconstruction should state:
    cycle and hence produces an actual logarithmic singularity.
 
 This is the conceptual bottleneck. The local quadratic factorization by itself does not establish
-the nonzero logarithmic coefficient.
+the nonzero logarithmic coefficient. `ChapterVIPinchModel.lean` now proves that the bare real
+symmetric model has the expected logarithm; the missing theorem must transport that calculation
+through the complex cycle, branch choice, analytic unit, and remaining contour contribution.
 
 ### 2. From a local logarithm to a coefficient theorem (§100)
 
@@ -208,11 +231,11 @@ proof of milestone 1 until the pinch, asymptotic, and rank arguments are closed.
    celestial-mechanics notation. Compare it against modern vanishing-cycle results before coding.
 3. Re-derive the local factor `θ₀,₀` and ask a complex-analysis/celestial-mechanics expert to check
    both identified source corrections.
-4. Formalize the exact Jacobian rescaling identity in §102; it is source-faithful algebra and does
-   not pretend to solve the rank argument.
-5. Prototype the §103 projective curves in a computer algebra system to verify degrees,
-   homogenizations, exceptional factors, and local multiplicities before choosing Lean
-   statements.
+4. Use the now-formalized Jacobian rescaling identity in §102 to state the remaining analytic and
+   rank input precisely; do not infer the nonzero determinant from the algebraic identity alone.
+5. Starting from the now-formalized §103 reduction and degree-seven bound, prototype the
+   projective curves in a computer algebra system to verify homogenizations, exceptional factors,
+   and local multiplicities before choosing Lean intersection-theory statements.
 6. Study whether the 1897 Picard–Fuchs relations yield finite certificates compatible with the
    finite-computation infrastructure. Treat this as an alternative research route, not as a
    completed bridge.
@@ -223,7 +246,7 @@ proof of milestone 1 until the pinch, asymptotic, and rank arguments are closed.
 
 - Henri Poincaré, [*Les méthodes nouvelles de la mécanique céleste*, volume I, Chapter VI
   (§§90–103)][chapter-vi], 1892.
-- Henri Poincaré, [facsimile p. 290][page-290] and [facsimile p. 323][page-323].
+- Henri Poincaré, [facsimiles p. 290][page-290], [p. 323][page-323], and [p. 331][page-331].
 - Henri Poincaré, [*Sur les périodes des intégrales doubles et le développement de la fonction
   perturbatrice*][poincare-1897], *Journal de mathématiques pures et appliquées* 5e série, 3
   (1897), 203–276.
@@ -235,6 +258,7 @@ proof of milestone 1 until the pinch, asymptotic, and rank arguments are closed.
 [chapter-vi]: https://fr.wikisource.org/wiki/Les_m%C3%A9thodes_nouvelles_de_la_m%C3%A9canique_c%C3%A9leste/Chap.06
 [page-290]: https://fr.wikisource.org/wiki/Page:Henri_Poincar%C3%A9_-_Les_m%C3%A9thodes_nouvelles_de_la_m%C3%A9canique_c%C3%A9leste,_Tome_1,_1892.djvu/302
 [page-323]: https://fr.wikisource.org/wiki/Page:Henri_Poincar%C3%A9_-_Les_m%C3%A9thodes_nouvelles_de_la_m%C3%A9canique_c%C3%A9leste,_Tome_1,_1892.djvu/335
+[page-331]: https://fr.wikisource.org/wiki/Page:Henri_Poincar%C3%A9_-_Les_m%C3%A9thodes_nouvelles_de_la_m%C3%A9canique_c%C3%A9leste,_Tome_1,_1892.djvu/343
 [poincare-1897]: https://www.numdam.org/item/JMPA_1897_5_3__203_0.pdf
 [yagasaki-classical]: https://arxiv.org/abs/2111.11031
 [yagasaki-fixed-mass]: https://arxiv.org/abs/2106.04925

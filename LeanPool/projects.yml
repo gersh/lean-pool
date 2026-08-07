@@ -5622,7 +5622,12 @@ projects:
       equations and reciprocal symmetries of §96, verify the logarithmic Taylor
       coefficients used in §100, and prove that a Darboux-type asymptotic with
       nonzero leading model forces eventual coefficient nonvanishing as used in
-      §§99--102. They also
+      §§99--102. They also verify the exact §102 Jacobian rescaling factor from
+      six scaled singularities to five singularity ratios and the corrected
+      polynomial derivative identity, reduction modulo P, and degree-seven
+      estimate used in §103. The real symmetric prepared quadratic model is
+      integrated exactly and shown to have its expected logarithmic asymptotic.
+      These modules
       connect that output to the restricted nonintegrability theorem. The
       proof of the convergence hypothesis and holomorphic annulus for
       Poincaré's actual series, the contour-pinch and admissibility analysis,
@@ -5660,6 +5665,10 @@ projects:
       - LeanPool.PoincareThreeBody.exists_chapterVI_weierstrassNormalForm
       - LeanPool.PoincareThreeBody.hasSum_chapterVILogSingularityCoefficient
       - LeanPool.PoincareThreeBody.eventually_coefficient_ne_zero_of_chapterVI_darboux_asymptotic
+      - LeanPool.PoincareThreeBody.chapterVI_scaledSingularities_jacobian_det
+      - LeanPool.PoincareThreeBody.chapterVI_curvePolynomial_derivative
+      - LeanPool.PoincareThreeBody.chapterVI_reducedCurve_totalDegree_le_seven
+      - LeanPool.PoincareThreeBody.tendsto_chapterVI_quadraticPinch_sub_log
       - LeanPool.PoincareThreeBody.nonintegrability_of_chapterVI_asymptotics
     main_results:
       - declaration: LeanPool.PoincareThreeBody.nonintegrability_of_collisionBand
@@ -5783,6 +5792,52 @@ projects:
         source_ref: >-
           Henri Poincaré, Les méthodes nouvelles de la mécanique céleste,
           Volume I (1892), Chapter VI, §§93, 99, and 102.
+      - declaration: LeanPool.PoincareThreeBody.chapterVI_scaledSingularities_jacobian_det
+        informal: >-
+          Given six singular-point values with z₁ and the scale ζ nonzero, and
+          a supplied table of derivatives with respect to five orbital
+          parameters, the determinant of the six functions zᵢ/ζ is
+          -z₁⁶/ζ⁷ times the determinant of the five ratio derivatives
+          d(z₂/z₁), ..., d(z₆/z₁).
+        source_ref: >-
+          Henri Poincaré, Les méthodes nouvelles de la mécanique céleste,
+          Volume I (1892), Chapter VI, §102 (pp. 328--329). This verifies the
+          displayed Jacobian algebra, not the unformalized claim that the ratio
+          Jacobian is nonzero for Poincaré's actual singularities.
+      - declaration: LeanPool.PoincareThreeBody.chapterVI_curvePolynomial_derivative
+        informal: >-
+          For P equal to the sum of three squares Uᵢ² and
+          Vᵢ = x ∂Uᵢ/∂x - Uᵢ, one has
+          x ∂P/∂x = 2 Σ VᵢUᵢ + 2P. Consequently, on P=0 this reduces to
+          x ∂P/∂x = 2 Σ VᵢUᵢ, as used in the source's next line.
+        source_ref: >-
+          Henri Poincaré, Les méthodes nouvelles de la mécanique céleste,
+          Volume I (1892), Chapter VI, §103 (p. 331). The printing has +P
+          rather than the algebraically required +2P; the discrepancy vanishes
+          after the immediately following restriction to P=0. This verifies
+          the polynomial identity, not the subsequent intersection count.
+      - declaration: LeanPool.PoincareThreeBody.chapterVI_reducedCurve_totalDegree_le_seven
+        informal: >-
+          If the two outside factors in Poincaré's reduced derivative equation
+          have degree at most two, the reduced auxiliary factors degree at most
+          two, and the Uᵢ degree at most three, then the resulting curve R has
+          total degree at most seven.
+        source_ref: >-
+          Henri Poincaré, Les méthodes nouvelles de la mécanique céleste,
+          Volume I (1892), Chapter VI, §103 (pp. 331--332). The accompanying
+          reduction theorem also verifies exactly that Q differs from 2xyR by
+          a multiple of P; no intersection multiplicity is asserted.
+      - declaration: LeanPool.PoincareThreeBody.tendsto_chapterVI_quadraticPinch_sub_log
+        informal: >-
+          The symmetric real integral of 1/sqrt(t²+k) has the exact leading
+          singularity -log k as k approaches zero from above; after adding
+          log k it tends to the finite value 2 log(2L).
+        source_ref: >-
+          Henri Poincaré, Les méthodes nouvelles de la mécanique céleste,
+          Volume I (1892), Chapter VI, §§99--100 (pp. 316--324). This verifies
+          the bare real quadratic-pinch model, not the still-unformalized
+          complex contour transport, branch choices, analytic unit, or
+          remainder estimate for Poincaré's perturbing function.
       - declaration: LeanPool.PoincareThreeBody.nonintegrability_of_chapterVI_asymptotics
         informal: >-
           Conditional restricted result: Darboux-type asymptotics with a

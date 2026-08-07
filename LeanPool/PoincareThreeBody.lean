@@ -15,8 +15,11 @@ import LeanPool.PoincareThreeBody.CoefficientNormalization
 import LeanPool.PoincareThreeBody.CertifiedPoincareSet
 import LeanPool.PoincareThreeBody.ChapterVI
 import LeanPool.PoincareThreeBody.ChapterVIContour
+import LeanPool.PoincareThreeBody.ChapterVICurveAlgebra
 import LeanPool.PoincareThreeBody.ChapterVIDarboux
+import LeanPool.PoincareThreeBody.ChapterVIJacobian
 import LeanPool.PoincareThreeBody.ChapterVILatticeReduction
+import LeanPool.PoincareThreeBody.ChapterVIPinchModel
 import LeanPool.PoincareThreeBody.ChapterVISingularityAlgebra
 import LeanPool.PoincareThreeBody.ChapterVIWeierstrass
 import LeanPool.PoincareThreeBody.Delaunay
@@ -64,7 +67,7 @@ import LeanPool.PoincareThreeBody.ValidatedQuadrature
 Source: arxiv:2111.11031, doi:10.1063/5.0266087, url:https://arxiv.org/abs/2111.11031
 Authors: Gershon Bialer
 Status: verified
-Main declarations: `LeanPool.PoincareThreeBody.nonintegrability_of_collisionBand`, `LeanPool.PoincareThreeBody.chapterVIFiniteFourierPolynomial_substitution`, `LeanPool.PoincareThreeBody.chapterVIReducedCoefficient_eq_sum_affineRay`, `LeanPool.PoincareThreeBody.chapterVIReducedCoefficient_circleIntegral`, `LeanPool.PoincareThreeBody.chapterVI_laurentSeries_circleCoefficient`, `LeanPool.PoincareThreeBody.chapterVI_tsum_eq_iterated_shear_sum`, `LeanPool.PoincareThreeBody.chapterVI_planarKeplerCoordinate_mul_conjugate`, `LeanPool.PoincareThreeBody.chapterVI_singularityParameter_inv`, `LeanPool.PoincareThreeBody.exists_chapterVI_weierstrassNormalForm`, `LeanPool.PoincareThreeBody.hasSum_chapterVILogSingularityCoefficient`, `LeanPool.PoincareThreeBody.eventually_coefficient_ne_zero_of_chapterVI_darboux_asymptotic`, `LeanPool.PoincareThreeBody.nonintegrability_of_chapterVI_asymptotics`
+Main declarations: `LeanPool.PoincareThreeBody.nonintegrability_of_collisionBand`, `LeanPool.PoincareThreeBody.chapterVIFiniteFourierPolynomial_substitution`, `LeanPool.PoincareThreeBody.chapterVIReducedCoefficient_eq_sum_affineRay`, `LeanPool.PoincareThreeBody.chapterVIReducedCoefficient_circleIntegral`, `LeanPool.PoincareThreeBody.chapterVI_laurentSeries_circleCoefficient`, `LeanPool.PoincareThreeBody.chapterVI_tsum_eq_iterated_shear_sum`, `LeanPool.PoincareThreeBody.chapterVI_planarKeplerCoordinate_mul_conjugate`, `LeanPool.PoincareThreeBody.chapterVI_singularityParameter_inv`, `LeanPool.PoincareThreeBody.exists_chapterVI_weierstrassNormalForm`, `LeanPool.PoincareThreeBody.hasSum_chapterVILogSingularityCoefficient`, `LeanPool.PoincareThreeBody.eventually_coefficient_ne_zero_of_chapterVI_darboux_asymptotic`, `LeanPool.PoincareThreeBody.chapterVI_scaledSingularities_jacobian_det`, `LeanPool.PoincareThreeBody.chapterVI_curvePolynomial_derivative`, `LeanPool.PoincareThreeBody.chapterVI_reducedCurve_totalDegree_le_seven`, `LeanPool.PoincareThreeBody.tendsto_chapterVI_quadraticPinch_sub_log`, `LeanPool.PoincareThreeBody.nonintegrability_of_chapterVI_asymptotics`
 Tags: dynamical-systems, celestial-mechanics, hamiltonian-systems, nonintegrability
 MSC: 70F07, 37J30, 37J40
 -/
@@ -105,6 +108,12 @@ symmetries in §96, including the correction required in printed equation (10).
 Mathlib's Weierstrass preparation theorem when the specialized series has order two.
 `ChapterVIDarboux` proves that a Darboux-type asymptotic with nonzero leading model forces
 eventual coefficient nonvanishing and verifies the logarithmic Taylor coefficients used in §100.
+`ChapterVIJacobian` verifies Poincaré's exact Jacobian rescaling factor in §102, conditional only
+on the displayed singular-point values and derivative table.
+`ChapterVICurveAlgebra` verifies the corrected polynomial derivative identity used in §103 and
+its on-curve consequence, the exact reduction modulo `P`, and the degree-seven estimate.
+`ChapterVIPinchModel` proves the logarithmic asymptotic of the real symmetric prepared quadratic;
+the source's complex contour, square-root branches, analytic unit, and remainder remain open.
 `ChapterVI` connects these results to
 the restricted resonant Fourier coefficient and final theorem. Establishing the convergence
 hypothesis and holomorphic annulus for Poincaré's actual perturbing series, the parameterized

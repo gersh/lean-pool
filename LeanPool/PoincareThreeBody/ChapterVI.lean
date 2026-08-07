@@ -6,8 +6,11 @@ Authors: Gershon Bialer
 
 import Mathlib.Analysis.Fourier.AddCircle
 import LeanPool.PoincareThreeBody.ChapterVIContour
+import LeanPool.PoincareThreeBody.ChapterVICurveAlgebra
 import LeanPool.PoincareThreeBody.ChapterVIDarboux
+import LeanPool.PoincareThreeBody.ChapterVIJacobian
 import LeanPool.PoincareThreeBody.ChapterVILatticeReduction
+import LeanPool.PoincareThreeBody.ChapterVIPinchModel
 import LeanPool.PoincareThreeBody.ChapterVISingularityAlgebra
 import LeanPool.PoincareThreeBody.ChapterVIWeierstrass
 import LeanPool.PoincareThreeBody.LocalEnergyLeaf
@@ -70,14 +73,23 @@ the decisive complex-singularity calculation in Chapter VI of Poincaré's first 
   `chapterVI_darbouxAsymptotic_of_logarithmicLeadingTerm` connects its exact coefficients plus a
   little-oh remainder to Poincaré's leading Darboux model.
   `eventually_coefficient_ne_zero_of_chapterVI_darboux_asymptotic` then verifies asymptotics-to-
-  nonvanishing. Identifying the actual convergent analytic germ with the formal series,
-  integrating its prepared square-root form along the pinched contour, and proving the remainder
-  estimate remain open. The predicates below state the corresponding restricted-problem inputs.
+  nonvanishing. `tendsto_chapterVI_quadraticPinch_sub_log` evaluates the real symmetric prepared
+  quadratic model and proves its exact logarithmic asymptotic. Identifying the actual convergent
+  analytic germ with the formal series, transporting the complex contour and square-root branch,
+  handling the analytic unit, and proving the remainder estimate remain open. The predicates
+  below state the corresponding restricted-problem inputs.
 * §102--103 (pp. 325--334): Poincaré uses the dependence of complex singular points on orbital
   parameters and an algebraic-curve intersection count to contradict an additional uniform
-  integral.  That dimension/counting argument is not formalized.  The theorems at the end of
-  this file instead connect coefficient nonvanishing to the restricted dense Poincaré set and
-  thence to the project's modified nonintegrability proof.
+  integral. `chapterVI_scaledSingularities_jacobian_det` verifies the exact Jacobian rescaling
+  factor `-z₁⁶ / ζ⁷` in §102. It does not establish the analytic dependence or rank hypotheses,
+  and the dimension/counting argument remains unformalized. In §103,
+  `chapterVI_curvePolynomial_derivative` verifies the corrected identity
+  `x ∂P/∂x = 2 ∑ VᵢUᵢ + 2P`; the printing has `+P`, which agrees only after restricting to `P=0`.
+  `chapterVI_cubicDerivativeCurveEquation_reduction` verifies the subsequent reduction modulo
+  `P`, and `chapterVI_reducedCurve_totalDegree_le_seven` proves its degree-seven estimate under
+  the displayed degree bounds. The intersection multiplicities are not inferred from these facts.
+  The theorems at the end of this file instead connect coefficient nonvanishing to the restricted
+  dense Poincaré set and thence to the project's modified nonintegrability proof.
 
 The unconditional theorem `nonintegrability_of_collisionBand` uses a modification: a real
 logarithmic collision blow-up and analytic continuation replace §§93--101.  Consequently this

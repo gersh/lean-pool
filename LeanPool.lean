@@ -2283,8 +2283,11 @@ import LeanPool.PoincareThreeBody.Averaging
 import LeanPool.PoincareThreeBody.CertifiedPoincareSet
 import LeanPool.PoincareThreeBody.ChapterVI
 import LeanPool.PoincareThreeBody.ChapterVIContour
+import LeanPool.PoincareThreeBody.ChapterVICurveAlgebra
 import LeanPool.PoincareThreeBody.ChapterVIDarboux
+import LeanPool.PoincareThreeBody.ChapterVIJacobian
 import LeanPool.PoincareThreeBody.ChapterVILatticeReduction
+import LeanPool.PoincareThreeBody.ChapterVIPinchModel
 import LeanPool.PoincareThreeBody.ChapterVISingularityAlgebra
 import LeanPool.PoincareThreeBody.ChapterVIWeierstrass
 import LeanPool.PoincareThreeBody.CoefficientNormalization
